@@ -18,6 +18,7 @@ dots_inside = {}
 dots_outside = {}
 
 showguides = false
+showvis = true
 
 function love.load()
 	font = love.graphics.newFont(11)
@@ -48,25 +49,36 @@ function love.update()
 		end
 	end
 	oldshowguides = love.keyboard.isDown('g')
+
+	if love.keyboard.isDown('f') and not oldshowvis then
+		if showvis then
+			showvis = false
+		else
+			showvis = true
+		end
+	end
+	oldshowvis = love.keyboard.isDown('f')
 end
 
 function love.draw()
 	love.graphics.setBackgroundColor(0,0,0)
 
+	if showvis then
+		love.graphics.setColor(0,1,0)
+		for _,dot in pairs(dots_inside) do
+			love.graphics.points(dot.x, dot.y)
+		end
+
+		love.graphics.setColor(1,0,0)
+		for _,dot in pairs(dots_outside) do
+			love.graphics.points(dot.x, dot.y)
+		end
+	end
+
 	if showguides then
 		love.graphics.setColor(1,1,1)
-		love.graphics.circle("line", center.x, center.y, 300)
-		love.graphics.rectangle("line", center.x - 300, center.y - 300, 600, 600)
-	end
-
-	love.graphics.setColor(0,1,0)
-	for _,dot in pairs(dots_inside) do
-		love.graphics.points(dot.x, dot.y)
-	end
-
-	love.graphics.setColor(1,0,0)
-	for _,dot in pairs(dots_outside) do
-		love.graphics.points(dot.x, dot.y)
+		love.graphics.circle("line", center.x, center.y, ra)
+		love.graphics.rectangle("line", center.x - ra, center.y - ra, ra*2, ra*2)
 	end
 
 	love.graphics.setColor(1,1,1)
