@@ -25,15 +25,21 @@ function love.load()
 	bigfont = love.graphics.newFont(24)
 end
 
+-- Radius of the circle/Half of the square's size
+ra = 300
+-- Resolution scale - how many decimals the randomly generated dots will have
+resScale = 1
+
 function love.update()
+
 	for i = 1, 1000 do
 		local dot = {
-			x = math.random(resolution.x / 2 - 300, resolution.x / 2 + 300),
-			y = math.random(resolution.y / 2 - 300, resolution.y / 2 + 300),
+			x = math.random((resolution.x / 2 - ra) * resScale , (resolution.x / 2 + ra) * resScale) / resScale,
+			y = math.random((resolution.y / 2 - ra) * resScale, (resolution.y / 2 + ra) * resScale) / resScale,
 		}
 
 		local distance_from_center = math.sqrt( ( dot.x - center.x ) ^ 2 + ( dot.y - center.y ) ^ 2 )
-		local inside_circle = ( distance_from_center < 300 )
+		local inside_circle = ( distance_from_center < ra )
 		if inside_circle then
 			table.insert(dots_inside, dot)
 		else
